@@ -65,7 +65,7 @@ public class Shopping{
         //purchasedGoods = new LongSparseArray<>();
         purchasedGoods = new HashMap<>();
 
-        computeTotalExpenditure();
+        totalExpenditure = computeTotalExpenditure();
 
         mOnAddGoodListener = null;
         mOnEditGoodListener = null;
@@ -91,7 +91,7 @@ public class Shopping{
         this.deleted = deleted;
         this.finished = finished;
 
-        computeTotalExpenditure();
+        totalExpenditure = computeTotalExpenditure();
 
         mOnAddGoodListener = null;
         mOnEditGoodListener = null;
