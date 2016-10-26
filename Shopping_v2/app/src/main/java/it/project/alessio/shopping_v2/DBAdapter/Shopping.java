@@ -39,6 +39,7 @@ public class Shopping{
 
     //Listeners
     private OnAddGoodListener mOnAddGoodListener;
+    private OnRemoveGoodListener mOnRemoveGoodListener;
     //private OnEditGoodQuantityListener mOnEditGoodQuantityListener;
     //private OnEditGoodPricePerUnitListener mOnEditGoodPricePerUnitListener;
     private OnEditGoodListener mOnEditGoodListener;
@@ -95,6 +96,7 @@ public class Shopping{
 
         mOnAddGoodListener = null;
         mOnEditGoodListener = null;
+        mOnRemoveGoodListener = null;
 
         // Listener
 //        mOnCreateShoppingListener.onCreate(this);
@@ -116,6 +118,7 @@ public class Shopping{
         // Listener
         mOnAddGoodListener = aShopping.mOnAddGoodListener;
         mOnEditGoodListener = aShopping.mOnEditGoodListener;
+        mOnRemoveGoodListener = aShopping.mOnRemoveGoodListener;
     }
 
     public Shopping(Bundle aBundle) {
@@ -150,7 +153,8 @@ public class Shopping{
 
     public void addGood(Good aGood)  {
         if (purchasedGoods.containsKey(aGood.getId()))
-            throw new IllegalArgumentException(String.format(Locale.getDefault(), GOOD_ALREADY_EXISTS, aGood));
+            throw new IllegalArgumentException(String.format(Locale.getDefault(),
+                    GOOD_ALREADY_EXISTS, aGood));
 
         purchasedGoods.put(aGood.getId(), aGood);
         //purchasedGoodsNo++;
@@ -159,6 +163,23 @@ public class Shopping{
         // Listener
         if (mOnAddGoodListener != null)
             mOnAddGoodListener.onAddGood(aGood);
+    }
+
+    public void removeGood(Good aGood) {
+        removeGood(aGood.getId());
+    }
+
+    public void removeGood(long idGood) {
+        if (!purchasedGoods.containsKey(idGood))
+            throw new IllegalArgumentException(String.format(Locale.getDefault(),
+                    GOOD_NOT_EXISTS, idGood));
+        Good mGood = getGoodById(idGood);
+        double oldPrice = mGood.computePrice();
+        purchasedGoods.remove(idGood);
+        totalExpenditure -= oldPrice;
+
+        if (mOnRemoveGoodListener != null)
+            mOnRemoveGoodListener.onRemoveGood(mGood);
     }
 /*
     public Good editGood(long idGood) { // TODO: 18/10/2016 da provare
@@ -178,7 +199,7 @@ public class Shopping{
         double oldPrice = mGood.computePrice();
         mGood.setQuantity(newQuantity);
 
-        totalExpenditure = totalExpenditure - oldPrice + mGood.computePrice();
+        totalExpenditure += + mGood.computePrice() - oldPrice;
 
         // Listener
         //mOnEditGoodQuantityListener.onEditGoodQuantity(oldQuantity, newQuantity);
@@ -284,6 +305,10 @@ public class Shopping{
     public interface OnAddGoodListener {
         void onAddGood(Good aGood);
     }
+
+    public interface OnRemoveGoodListener {
+        void onRemoveGood(Good aGood);
+    }
 /*
     public interface OnEditGoodQuantityListener {
         void onEditGoodQuantity(int oldValue, int newValue);
@@ -299,12 +324,17 @@ public class Shopping{
         void afterEditGood(Good aGood);
     }
 
+
     /*public void setOnEditGoodQuantityListener(OnEditGoodQuantityListener listener) {
         mOnEditGoodQuantityListener = listener;
     }*/
 
     public void setOnAddGoodListener(OnAddGoodListener listener) {
         mOnAddGoodListener = listener;
+    }
+
+    public void setOnRemoveGoodListener(OnRemoveGoodListener listener) {
+        mOnRemoveGoodListener = listener;
     }
 
     /*public void setOnEditGoodPricePerUnitListener(OnEditGoodPricePerUnitListener listener) {
