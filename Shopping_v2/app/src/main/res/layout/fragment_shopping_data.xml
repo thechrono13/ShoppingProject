@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.project.alessio.shopping_v2.Fragments.ShoppingDataFragment">
+
+
+    <TextView
+        android:text="ShoppingName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fragment_shopping_data_txt_shopping_name" />
+
+    <TextView
+        android:text="ShoppingDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_shopping_data_txt_shopping_name"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fragment_shopping_data_txt_shopping_date" />
+
+    <TextView
+        android:text="PurchasedGoodsNO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_shopping_data_txt_shopping_date"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fragment_shopping_data_txt_shopping_purchased_goods_no" />
+
+    <TextView
+        android:text="TotalExpenditure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_shopping_data_txt_shopping_purchased_goods_no"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fragment_shopping_data_txt_shopping_total_expenditure" />
+
+    <TextView
+        android:text="Budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_shopping_data_txt_shopping_total_expenditure"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fragment_shopping_data_txt_shopping_budget" />
+</RelativeLayout>

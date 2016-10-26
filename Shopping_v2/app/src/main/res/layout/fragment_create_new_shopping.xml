@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.project.alessio.shopping_v2.Fragments.CreateNewShoppingFragment">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textAutoCorrect"
+        android:text="Name"
+        android:ems="5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/shopping_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="5"
+        android:layout_marginStart="10dp"
+        android:id="@+id/shopping_date"
+        android:layout_toEndOf="@+id/shopping_name"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

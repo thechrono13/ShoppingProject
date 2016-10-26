@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Shopping</string>
+    <string name="action_settings">Settings</string>
+    <string name="name">Nome</string>
+
+    <string name="currency_euro_per_unit">€/%s</string>
+    <string name="currency_euro">€</string>
+
+    <!--Dialog -->
+    <string name="dialog_default_positive_action">OK</string>
+    <string name="dialog_default_negative_action">Annulla</string>
+    <string name="create_new_good_alert_dialog_positive_action">Crea</string>
+    <string name="create_new_good_alert_dialog_edt_txt_tags_hint_value">TAGS</string>
+    <string name="create_new_good_alert_dialog_txt_unit_of_measure_value">Unità di misura:</string>
+
+    <!-- PurchaseGoodActivity -->
+    <string name="title_activity_purchase_new_good">Acquista</string>
+    <string name="activity_purchase_new_good_edt_txt_quantity_hint_value">Quantità</string>
+    <string name="activity_purchase_new_good_edt_txt_quantity_error_message">Inserisci la quantità!</string>
+    <string name="activity_purchase_new_good_edt_txt_price_per_unit_hint_value">Prezzo</string>
+    <string name="activity_purchase_new_good_edt_txt_price_per_unit_error_message_no_value">Inserisci il prezzo!</string>
+    <string name="activity_purchase_new_good_btn_create_new_good">Nuovo</string>
+    <string name="activity_purchase_new_good_btn_add_good_to_current_shopping">Compra</string>
+
+    <!-- MyShoppingActivity -->
+    <string name="title_activity_my_shopping">La Mia Spesa</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

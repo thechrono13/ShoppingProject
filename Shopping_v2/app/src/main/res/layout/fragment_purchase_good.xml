@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_purchase_new_good"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="it.project.alessio.shopping_v2.PurchaseGoodActivity" >
+
+    <AutoCompleteTextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:inputType="text|textNoSuggestions"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        android:completionThreshold="1"
+        android:ems="5"
+        android:id="@+id/activity_purchase_new_good_auto_edt_txt_name"
+        android:hint="@string/name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="4"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:hint="@string/activity_purchase_new_good_edt_txt_quantity_hint_value"
+        android:layout_marginTop="30dp"
+        android:enabled="false"
+        android:id="@+id/activity_purchase_new_good_edt_txt_quantity"
+        android:layout_below="@+id/activity_purchase_new_good_auto_edt_txt_name"
+        android:layout_alignStart="@+id/activity_purchase_new_good_auto_edt_txt_name" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/activity_purchase_new_good_auto_edt_txt_name"
+        android:layout_toEndOf="@+id/activity_purchase_new_good_auto_edt_txt_name"
+        android:text="@string/activity_purchase_new_good_btn_create_new_good"
+        android:enabled="false"
+        android:layout_marginStart="50dp"
+        android:id="@+id/activity_purchase_new_good_btn_create_new_good" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_purchase_new_good_txt_unit_of_measure"
+        android:layout_marginStart="15dp"
+        android:layout_alignBaseline="@+id/activity_purchase_new_good_edt_txt_quantity"
+        android:layout_toEndOf="@+id/activity_purchase_new_good_edt_txt_quantity" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="4"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:enabled="false"
+        android:hint="@string/activity_purchase_new_good_edt_txt_price_per_unit_hint_value"
+        android:layout_below="@+id/activity_purchase_new_good_edt_txt_quantity"
+        android:layout_alignStart="@+id/activity_purchase_new_good_edt_txt_quantity"
+        android:id="@+id/activity_purchase_new_good_edt_txt_price_per_unit" />
+
+    <TextView
+        android:text="@string/currency_euro_per_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_alignBaseline="@+id/activity_purchase_new_good_edt_txt_price_per_unit"
+        android:layout_toEndOf="@id/activity_purchase_new_good_edt_txt_price_per_unit"
+        android:id="@+id/activity_purchase_new_good_txt_currency" />
+
+    <Button
+        android:text="@string/activity_purchase_new_good_btn_add_good_to_current_shopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_purchase_new_good_btn_add_good_to_current_shopping"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
