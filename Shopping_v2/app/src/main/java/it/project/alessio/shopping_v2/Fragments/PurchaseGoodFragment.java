@@ -37,8 +37,7 @@ import it.project.alessio.shopping_v2.R;
 import it.project.alessio.shopping_v2.Utils.Utils;
 
 
-public class PurchaseGoodFragment extends Fragment
-        /*implements CreateNewGoodAlertDialog.DialogListener */{
+public class PurchaseGoodFragment extends Fragment {
 
     public static final String TAG_PURCHASE_GOOD_FRAGMENT = "PurchaseGoodFragment";
 
@@ -59,7 +58,6 @@ public class PurchaseGoodFragment extends Fragment
     private Good selectedGood;
 
 
-
     public PurchaseGoodFragment() {
         // Required empty public constructor
     }
@@ -78,22 +76,32 @@ public class PurchaseGoodFragment extends Fragment
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_purchase_good, container, false);
+
+        goodNameEdtTxt = (AutoCompleteTextView) rootView
+                .findViewById(R.id.activity_purchase_new_good_auto_edt_txt_name);
+        createNewGoodBtn = (Button) rootView
+                .findViewById(R.id.activity_purchase_new_good_btn_create_new_good);
+        addGoodToCurrentShoppingBtn = (Button) rootView
+                .findViewById(R.id.activity_purchase_new_good_btn_add_good_to_current_shopping);
+        unitOfMeasureSpn = (Spinner) rootView
+                .findViewById(R.id.activity_purchase_new_good_txt_unit_of_measure);
+        pricePerUnitEdtTxt = (EditText) rootView
+                .findViewById(R.id.activity_purchase_new_good_edt_txt_price_per_unit);
+        quantityEdtTxt = (EditText) rootView
+                .findViewById(R.id.activity_purchase_new_good_edt_txt_quantity);
+        currencyTxt = (TextView) rootView
+                .findViewById(R.id.activity_purchase_new_good_txt_currency);
+        return rootView;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        goodNameEdtTxt = (AutoCompleteTextView) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_auto_edt_txt_name);
-        createNewGoodBtn = (Button) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_btn_create_new_good);
-        addGoodToCurrentShoppingBtn = (Button) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_btn_add_good_to_current_shopping);
-        unitOfMeasureSpn = (Spinner) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_txt_unit_of_measure);
-        pricePerUnitEdtTxt = (EditText) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_edt_txt_price_per_unit);
-        quantityEdtTxt = (EditText) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_edt_txt_quantity);
-        currencyTxt = (TextView) getActivity()
-                .findViewById(R.id.activity_purchase_new_good_txt_currency);
+
 
         configureUIBehaviour();
 
@@ -103,9 +111,15 @@ public class PurchaseGoodFragment extends Fragment
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        mListener.onAddPurchaseGoodFragment();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-
 
 
         mGoods = ((MyShoppingActivity) getActivity()).getGoods();
@@ -113,12 +127,7 @@ public class PurchaseGoodFragment extends Fragment
         setupGoodsAdapter(null);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_purchase_good, container, false);
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -134,6 +143,9 @@ public class PurchaseGoodFragment extends Fragment
     @Override
     public void onDetach() {
         super.onDetach();
+
+        mListener.onRemovePurchaseGoodFragment();
+
         mListener = null;
     }
 
@@ -172,13 +184,13 @@ public class PurchaseGoodFragment extends Fragment
 
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction();
+        void onAddPurchaseGoodFragment();
+        void onRemovePurchaseGoodFragment();
     }
 
-    public ArrayAdapter<Good> getGoodNameEdtTxtAdapter(){ // TODO: 25/10/2016 da provare
+    public ArrayAdapter<Good> getGoodNameEdtTxtAdapter() { // TODO: 25/10/2016 da provare
         return (ArrayAdapter<Good>) goodNameEdtTxt.getAdapter();
     }
-
 
 
     public void setupGoodsAdapter(@Nullable Good aGood) {
@@ -191,7 +203,7 @@ public class PurchaseGoodFragment extends Fragment
 
 
     // Sets up listeners and watchers for the UI
-    private void configureUIBehaviour(){
+    private void configureUIBehaviour() {
         createNewGoodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,7 +229,7 @@ public class PurchaseGoodFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mGoods != null) {
-                    setGoodAsSelected((Good)parent.getAdapter().getItem(position));
+                    setGoodAsSelected((Good) parent.getAdapter().getItem(position));
                 }
             }
         });
@@ -286,7 +298,7 @@ public class PurchaseGoodFragment extends Fragment
 
     // Once found the good to purchase fills fields with good data
     // and also set the good ID as selected
-    private void setGoodAsSelected(Good good){
+    private void setGoodAsSelected(Good good) {
         selectedGood = good;
         unitOfMeasureSpn.setAdapter((new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line,
@@ -334,7 +346,7 @@ public class PurchaseGoodFragment extends Fragment
 
             if (quantity == 0) {
                 quantityEdtTxt.setError("0 non è valido!");
-                return  false;
+                return false;
             }
             if (pricePerUnit == 0) {
                 pricePerUnitEdtTxt.setError("0 non è valido!");
@@ -351,7 +363,7 @@ public class PurchaseGoodFragment extends Fragment
             selectedGood.setQuantityUnitOfMeasure(quantityUnitOfMeasure);
             selectedGood.setPricePerUnit(pricePerUnit);
             return true;
-        } else if (!isGoodSelected()){
+        } else if (!isGoodSelected()) {
             Snackbar.make(getActivity().findViewById(android.R.id.content), "Nessun bene selezionato!",
                     Snackbar.LENGTH_LONG)
                     .show();
@@ -365,7 +377,7 @@ public class PurchaseGoodFragment extends Fragment
             quantityEdtTxt.setError(getString(
                     R.string.activity_purchase_new_good_edt_txt_quantity_error_message));
             return false;
-        } else if (sPricePerUnit.isEmpty()){
+        } else if (sPricePerUnit.isEmpty()) {
             pricePerUnitEdtTxt.setError(getString(
                     R.string.activity_purchase_new_good_edt_txt_price_per_unit_error_message_no_value));
             return false;
@@ -379,14 +391,14 @@ public class PurchaseGoodFragment extends Fragment
     }
 
 
-    private void insertSelectedGoodInShopping(){
+    private void insertSelectedGoodInShopping() {
         if (getSelectedGoodData()) {
             try {
                 ((MyShoppingActivity) getActivity()).getShopping().addGood(selectedGood);
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 Log.w("ADD GOOD", e.getMessage());
                 Snackbar.make(getActivity()
-                        .findViewById(android.R.id.content),
+                                .findViewById(android.R.id.content),
                         String.format(Locale.getDefault(), "Inserimento %s fallito",
                                 selectedGood.getName()),
                         Snackbar.LENGTH_LONG)
@@ -396,67 +408,9 @@ public class PurchaseGoodFragment extends Fragment
     }
 
 
-/************ Crea nuovo Good **********/
     private void showDialog(String goodName) {
         DialogFragment dialog = CreateNewGoodAlertDialog.newInstance(goodName);
         dialog.show(getFragmentManager(), CreateNewGoodAlertDialog.TAG);
     }
-/*
-    @Override
-    public void onDialogPositiveClick(Good newGood) {
-        ((MyShoppingActivity) getActivity()).writeNewGoodDataToDB(newGood);
-    }
 
-    @Override
-    public void onDialogNegativeClick() {
-
-    }*/
-
-    // Calls a new Thread to write new Good data to DB
-    private void writeNewGoodDataToDB(Good newGood){
-        new AsyncTask<Good, Void, Long>() {
-            ProgressDialog mProgressDialog;
-
-            // Writes new data to DB, executed only in a separated Thread
-            /*
-            private long insertNewGoodIntoDB(Good newGood){
-                if (mDB == null)
-                    mDB = new DBShoppingAdapter(getBaseContext());
-                mDB.openWriteable();
-                long rowId = mDB.createNewGood(newGood.getName(), newGood.getUnitOfMeasureIndex(), newGood.getTags());
-                mDB.close();
-                return rowId;
-            }*/
-
-            @Override
-            protected void onPreExecute() {
-                // Lanciare un alert di caricamento
-                mProgressDialog = Utils.buildProgressDialog(getContext());
-                mProgressDialog.show();
-            }
-
-            @Override
-            protected Long doInBackground(Good... params) {
-                //return insertNewGoodIntoDB(params[0]);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Long result) {
-                // Tolgo l'alert
-                mProgressDialog.dismiss();
-
-                // Mostrare messaggio in base al risultato
-                String message = "Inserimento fallito";
-                if (result > 0) {
-                    message = "Inserito con successo";
-                    goodNameEdtTxt.setText(""); // TODO: trovare un modo per ripescare l'ultimo good inserito
-                }
-                Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-                        .show();
-            }
-
-
-        }.execute(newGood);
-    }
 }

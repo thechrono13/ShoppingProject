@@ -1,5 +1,6 @@
 package it.project.alessio.shopping_v2.Utils;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
@@ -74,8 +75,8 @@ public class Utils
         return !p.matcher(s).find();
     }
 
-    public static ProgressDialog buildProgressDialog(Context context) {
-        ProgressDialog mProgressDialog = new ProgressDialog(context);
+    public static ProgressDialog buildProgressDialog(Activity activity) {
+        ProgressDialog mProgressDialog = new ProgressDialog(activity);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setMessage("Please wait..."); // TODO: Trovare un messaggio migliore???
         mProgressDialog.setCancelable(false);

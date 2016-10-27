@@ -32,8 +32,7 @@ import it.project.alessio.shopping_v2.Utils.Utils;
 
 
 public class MyShoppingActivity extends AppCompatActivity
-        implements /*GoodsListFragment_OLD.OnFragmentInteractionListener,*/
-        ShoppingDataFragment.OnFragmentInteractionListener,
+        implements ShoppingDataFragment.OnFragmentInteractionListener,
         PurchaseGoodFragment.OnFragmentInteractionListener,
         CreateNewGoodAlertDialog.DialogListener,
         GoodsListFragment.OnFragmentInteractionListener{
@@ -48,6 +47,8 @@ public class MyShoppingActivity extends AppCompatActivity
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private ProgressDialog mProgressDialog;
 
     private FloatingActionButton fab;
 
@@ -73,13 +74,13 @@ public class MyShoppingActivity extends AppCompatActivity
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment purchaseGoodFragment = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
+        /*Fragment purchaseGoodFragment = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
 
         if (purchaseGoodFragment != null) {
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
-        }
+        }*/
 
         dataFragment = (DataFragment) fm.findFragmentByTag(DataFragment.DATA_FRAGMENT_TAG);
         if (dataFragment == null) {
@@ -99,10 +100,10 @@ public class MyShoppingActivity extends AppCompatActivity
 
                 FragmentManager fm = getSupportFragmentManager();
                 Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
-                if (f == null) {
+                if (f == null) {/*
                     viewPager.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.GONE);
-                    view.setVisibility(View.GONE);
+                    view.setVisibility(View.GONE);*/
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(0);
 
@@ -132,12 +133,12 @@ public class MyShoppingActivity extends AppCompatActivity
         Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
         if (f != null) {
             fm.beginTransaction().remove(f).commit();
-            viewPager.setVisibility(View.VISIBLE);
+            /*viewPager.setVisibility(View.VISIBLE);
             tabLayout.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
             AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
             params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);*/
             return false;
         } else {
 
@@ -151,12 +152,12 @@ public class MyShoppingActivity extends AppCompatActivity
         Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
         if (f != null) {
             fm.beginTransaction().remove(f).commit();
-            viewPager.setVisibility(View.VISIBLE);
+            /*viewPager.setVisibility(View.VISIBLE);
             tabLayout.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
             AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
             params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);*/
         } else {
             super.onBackPressed();
         }
@@ -183,8 +184,20 @@ public class MyShoppingActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction() {
+    public void onAddPurchaseGoodFragment() {
+        viewPager.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void onRemovePurchaseGoodFragment() {
+        viewPager.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.VISIBLE);
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
     }
 
     public Shopping getShopping() {
@@ -208,7 +221,7 @@ public class MyShoppingActivity extends AppCompatActivity
 
         } else {
             new AsyncTask<Void, Void, Boolean>(){
-                private ProgressDialog mProgressDialog;
+                //private ProgressDialog mProgressDialog;
 
                 @Override
                 protected void onPreExecute() {
@@ -240,6 +253,7 @@ public class MyShoppingActivity extends AppCompatActivity
                 @Override
                 protected void onPostExecute(Boolean aBoolean) {
                     mProgressDialog.dismiss();
+                    mProgressDialog = null;
                 }
 
             }.execute();
@@ -249,7 +263,7 @@ public class MyShoppingActivity extends AppCompatActivity
     // Calls a new Thread to write new Good data to DB
     public void writeNewGoodDataToDB(Good newGood){
         new AsyncTask<Good, Void, Good>() {
-            ProgressDialog mProgressDialog;
+            //ProgressDialog mProgressDialog;
 
 
             @Override
@@ -278,6 +292,7 @@ public class MyShoppingActivity extends AppCompatActivity
             protected void onPostExecute(Good good) {
                 // Tolgo l'alert
                 mProgressDialog.dismiss();
+                mProgressDialog = null;
 
                 // Mostrare messaggio in base al risultato
                 String message = "Inserimento fallito";
@@ -312,7 +327,7 @@ public class MyShoppingActivity extends AppCompatActivity
             long idShopping = getIntent().getLongExtra(DBShoppingAdapter.ShoppingTable.KEY_ID_SHOPPING, 1);
 
             new AsyncTask<Long, Void, Boolean>() {
-                private ProgressDialog mProgressDialog;
+                //private ProgressDialog mProgressDialog;
 
                 @Override
                 protected void onPreExecute() {
@@ -334,6 +349,7 @@ public class MyShoppingActivity extends AppCompatActivity
                 @Override
                 protected void onPostExecute(Boolean result) {
                     mProgressDialog.dismiss();
+                    mProgressDialog = null;
 
                     //Log.d("LoadShopping", "Caricata dal DB");
                     if (result) {
