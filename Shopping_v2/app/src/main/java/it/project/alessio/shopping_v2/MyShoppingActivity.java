@@ -299,9 +299,7 @@ public class MyShoppingActivity extends AppCompatActivity
                             (PurchaseGoodFragment) getSupportFragmentManager()
                                     .findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
                     if (fragment != null) {
-                        //fragment.setupGoodsAdapter(good); // TODO: aggiungere direttamente all'adapter invece di ricrearlo
                         fragment.getGoodNameEdtTxtAdapter().add(good);
-                        //fragment.getGoodNameEdtTxtAdapter().notifyDataSetChanged();
                     }
                 }
                 Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
@@ -316,7 +314,7 @@ public class MyShoppingActivity extends AppCompatActivity
 
         mShopping = dataFragment.getShopping();
         if (mShopping != null) {
-            //Log.d("LoadShopping", "Caricata dal fragment");
+            Log.d("LoadShopping", "Caricata dal fragment");
             setOnChangeShoppingBehaviour();
         } else {
             long idShopping = getIntent().getLongExtra(DBShoppingAdapter.ShoppingTable.KEY_ID_SHOPPING, 1);
@@ -332,7 +330,6 @@ public class MyShoppingActivity extends AppCompatActivity
 
                 @Override
                 protected Boolean doInBackground(Long... params) {
-
                     if (mDB == null)
                         mDB = new DBShoppingAdapter(MyShoppingActivity.this);
                     mDB.openReadable();
@@ -347,9 +344,13 @@ public class MyShoppingActivity extends AppCompatActivity
 
                     //Log.d("LoadShopping", "Caricata dal DB");
                     if (result) {
-                        if (mGoodsListFragment != null) {
+                        if (mGoodsListFragment != null)
                             mGoodsListFragment.setRecyclerViewAdapter();
-                        }
+
+                        if (mShoppingDataFragment != null)
+                            mShoppingDataFragment.setFields();
+
+
                         setOnChangeShoppingBehaviour();
                         Snackbar.make(findViewById(android.R.id.content),
                                 "Spesa caricata!", Snackbar.LENGTH_LONG)

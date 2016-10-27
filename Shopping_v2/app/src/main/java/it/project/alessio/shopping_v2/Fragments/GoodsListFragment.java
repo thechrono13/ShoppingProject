@@ -14,7 +14,7 @@ import it.project.alessio.shopping_v2.DBAdapter.Shopping;
 import it.project.alessio.shopping_v2.Adapters.GoodAdapter;
 import it.project.alessio.shopping_v2.MyShoppingActivity;
 import it.project.alessio.shopping_v2.R;
-import it.project.alessio.shopping_v2.RecyclerItemClickListener;
+import it.project.alessio.shopping_v2.Adapters.RecyclerItemClickListener;
 
 
 public class GoodsListFragment extends Fragment {
@@ -42,6 +42,19 @@ public class GoodsListFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+
+        mListener.getGoodsListFragmentInstance(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -51,10 +64,6 @@ public class GoodsListFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
-
-        mShopping = ((MyShoppingActivity) getActivity()).getShopping();
-        if (mShopping != null)
-            setRecyclerViewAdapter();
 
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(),
                 mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -72,9 +81,22 @@ public class GoodsListFragment extends Fragment {
         return viewRoot;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //mShopping = ((MyShoppingActivity) getActivity()).getShopping();
+        //if (mShopping != null)
+            setRecyclerViewAdapter();
+    }
+
     public void setRecyclerViewAdapter(){
         if (mShopping == null)
             mShopping = ((MyShoppingActivity) getActivity()).getShopping();
+
+        if (mShopping == null)
+            return;
 
         mRecyclerView.setAdapter(new GoodAdapter(mShopping.getPurchasedGoodsArray(), getContext()));
     }
@@ -85,18 +107,7 @@ public class GoodsListFragment extends Fragment {
 
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
 
-        mListener.getGoodsListFragmentInstance(this);
-    }
 
     @Override
     public void onDetach() {

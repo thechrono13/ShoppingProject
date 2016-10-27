@@ -65,8 +65,9 @@ public class ShoppingDataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mShopping = ((MyShoppingActivity) getActivity()).getShopping();
-        setFields();
+        //mShopping = ((MyShoppingActivity) getActivity()).getShopping();
+        //if (mShopping != null)
+            setFields();
     }
 
     public void updateFields() {
@@ -74,7 +75,12 @@ public class ShoppingDataFragment extends Fragment {
         shoppingTotalExpenditureTxt.setText(String.format(Locale.getDefault(), "%.2f", mShopping.getTotalExpenditure()));
     }
 
-    private void setFields() {
+    public void setFields() {
+        if (mShopping == null)
+            mShopping = ((MyShoppingActivity) getActivity()).getShopping();
+        if (mShopping == null)
+            return;
+
         shoppingNameTxt.setText(mShopping.getName());
         shoppingDateTxt.setText(mShopping.getDate().toString()); // TODO: da implementare
         shoppingBudgetTxt.setText(String.format(Locale.getDefault(), "%.2f", mShopping.getBudget()));

@@ -1,12 +1,10 @@
-package it.project.alessio.shopping_v2;
+package it.project.alessio.shopping_v2.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
-import it.project.alessio.shopping_v2.DBAdapter.Good;
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
 
