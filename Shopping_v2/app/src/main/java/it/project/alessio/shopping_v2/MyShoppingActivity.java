@@ -233,7 +233,6 @@ public class MyShoppingActivity extends AppCompatActivity
                     if (mDB == null)
                         mDB = new DBShoppingAdapter(MyShoppingActivity.this);
                     mDB.openReadable();
-                    //mGoods = mDB.getAllGoodsIndexedByName();
                     mGoods = mDB.getAllGoods();
                     mDB.close();
 
