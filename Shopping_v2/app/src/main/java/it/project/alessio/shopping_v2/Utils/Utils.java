@@ -74,9 +74,18 @@ public class Utils
         Pattern p = Pattern.compile("[^a-z]", Pattern.CASE_INSENSITIVE);
         return !p.matcher(s).find();
     }
-
+/*
     public static ProgressDialog buildProgressDialog(Activity activity) {
         ProgressDialog mProgressDialog = new ProgressDialog(activity);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage("Please wait..."); // TODO: Trovare un messaggio migliore???
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        return mProgressDialog;
+    }*/
+
+    public static ProgressDialog buildProgressDialog(Context context) {
+        ProgressDialog mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setMessage("Please wait..."); // TODO: Trovare un messaggio migliore???
         mProgressDialog.setCancelable(false);

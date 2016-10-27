@@ -48,8 +48,6 @@ public class MyShoppingActivity extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private ProgressDialog mProgressDialog;
-
     private FloatingActionButton fab;
 
     //private GoodsListFragment_OLD mGoodsListFragment;
@@ -221,7 +219,7 @@ public class MyShoppingActivity extends AppCompatActivity
 
         } else {
             new AsyncTask<Void, Void, Boolean>(){
-                //private ProgressDialog mProgressDialog;
+                private ProgressDialog mProgressDialog;
 
                 @Override
                 protected void onPreExecute() {
@@ -253,7 +251,6 @@ public class MyShoppingActivity extends AppCompatActivity
                 @Override
                 protected void onPostExecute(Boolean aBoolean) {
                     mProgressDialog.dismiss();
-                    mProgressDialog = null;
                 }
 
             }.execute();
@@ -263,7 +260,7 @@ public class MyShoppingActivity extends AppCompatActivity
     // Calls a new Thread to write new Good data to DB
     public void writeNewGoodDataToDB(Good newGood){
         new AsyncTask<Good, Void, Good>() {
-            //ProgressDialog mProgressDialog;
+            ProgressDialog mProgressDialog;
 
 
             @Override
@@ -292,7 +289,6 @@ public class MyShoppingActivity extends AppCompatActivity
             protected void onPostExecute(Good good) {
                 // Tolgo l'alert
                 mProgressDialog.dismiss();
-                mProgressDialog = null;
 
                 // Mostrare messaggio in base al risultato
                 String message = "Inserimento fallito";
@@ -327,7 +323,7 @@ public class MyShoppingActivity extends AppCompatActivity
             long idShopping = getIntent().getLongExtra(DBShoppingAdapter.ShoppingTable.KEY_ID_SHOPPING, 1);
 
             new AsyncTask<Long, Void, Boolean>() {
-                //private ProgressDialog mProgressDialog;
+                private ProgressDialog mProgressDialog;
 
                 @Override
                 protected void onPreExecute() {
@@ -349,7 +345,6 @@ public class MyShoppingActivity extends AppCompatActivity
                 @Override
                 protected void onPostExecute(Boolean result) {
                     mProgressDialog.dismiss();
-                    mProgressDialog = null;
 
                     //Log.d("LoadShopping", "Caricata dal DB");
                     if (result) {
