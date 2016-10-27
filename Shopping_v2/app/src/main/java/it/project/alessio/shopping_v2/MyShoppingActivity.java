@@ -68,17 +68,9 @@ public class MyShoppingActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         FragmentManager fm = getSupportFragmentManager();
-        /*Fragment purchaseGoodFragment = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
-
-        if (purchaseGoodFragment != null) {
-            viewPager.setVisibility(View.GONE);
-            tabLayout.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
-        }*/
 
         dataFragment = (DataFragment) fm.findFragmentByTag(DataFragment.DATA_FRAGMENT_TAG);
         if (dataFragment == null) {
@@ -90,18 +82,9 @@ public class MyShoppingActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                Intent mIntent = new Intent(getApplicationContext(), PurchaseGoodActivity.class);
-                mIntent.putExtra(DBShoppingAdapter.ShoppingTable.KEY_ID_SHOPPING,
-                        mShopping.getId());
-                startActivity(mIntent);*/
-
                 FragmentManager fm = getSupportFragmentManager();
                 Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
-                if (f == null) {/*
-                    viewPager.setVisibility(View.GONE);
-                    tabLayout.setVisibility(View.GONE);
-                    view.setVisibility(View.GONE);*/
+                if (f == null) {
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(0);
 
@@ -126,17 +109,10 @@ public class MyShoppingActivity extends AppCompatActivity
 
     @Override
     public boolean onSupportNavigateUp() {
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
         if (f != null) {
             fm.beginTransaction().remove(f).commit();
-            /*viewPager.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);*/
             return false;
         } else {
 
@@ -150,12 +126,6 @@ public class MyShoppingActivity extends AppCompatActivity
         Fragment f = fm.findFragmentByTag(PurchaseGoodFragment.TAG_PURCHASE_GOOD_FRAGMENT);
         if (f != null) {
             fm.beginTransaction().remove(f).commit();
-            /*viewPager.setVisibility(View.VISIBLE);
-            tabLayout.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-                    |AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);*/
         } else {
             super.onBackPressed();
         }
@@ -242,7 +212,6 @@ public class MyShoppingActivity extends AppCompatActivity
                     mGoodsHashMap = new HashMap<>();
                     for (Good g : mGoods)
                         mGoodsHashMap.put(g.getName(), g);
-
 
                     return !mGoods.isEmpty();
                 }

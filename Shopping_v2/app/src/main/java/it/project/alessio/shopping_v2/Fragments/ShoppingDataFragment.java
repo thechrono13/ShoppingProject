@@ -65,6 +65,7 @@ public class ShoppingDataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         //mShopping = ((MyShoppingActivity) getActivity()).getShopping();
         //if (mShopping != null)
             setFields();
