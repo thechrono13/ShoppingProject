@@ -367,7 +367,7 @@ public class MyShoppingActivity extends AppCompatActivity
             @Override
             public void onAddGood(Good aGood) {
                 //mGoodsListFragment.setRecyclerViewAdapter();
-                mGoodsListFragment.getRecyclerViewAdapter().add(aGood);
+                mGoodsListFragment.getRecyclerViewAdapter().addItem(aGood);
                 mShoppingDataFragment.updateFields();
 
                 Fragment f = getSupportFragmentManager()
@@ -391,6 +391,14 @@ public class MyShoppingActivity extends AppCompatActivity
                         return result;
                     }
                 }.execute(aGood);
+            }
+        });
+
+        mShopping.setOnRemoveGoodListener(new Shopping.OnRemoveGoodListener() {
+            @Override
+            public void onRemoveGood(Good aGood) {
+                if (mShoppingDataFragment != null)
+                    mShoppingDataFragment.updateFields();
             }
         });
     }

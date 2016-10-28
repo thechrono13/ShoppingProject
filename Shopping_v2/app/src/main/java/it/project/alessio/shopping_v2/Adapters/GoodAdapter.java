@@ -2,6 +2,8 @@ package it.project.alessio.shopping_v2.Adapters;
 
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -12,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import it.project.alessio.shopping_v2.DBAdapter.Good;
+import it.project.alessio.shopping_v2.DBAdapter.Shopping;
 import it.project.alessio.shopping_v2.Utils.Utils;
 import it.project.alessio.shopping_v2.R;
 
@@ -23,10 +27,15 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
 
     private ArrayList<Good> mGoodsList;
     private Context context;
+    private OnRemoveItemListener mListener;
 
-    public GoodAdapter(ArrayList<Good> goodsList, Context context) {
+    public GoodAdapter(ArrayList<Good> goodsList, Context context, OnRemoveItemListener listener) {
         this.context = context;
         this.mGoodsList = goodsList;
+        this.mListener = listener;
+    }
+    public interface OnRemoveItemListener {
+        public void onRemoveItem(Good good);
     }
 
     @Override
@@ -38,19 +47,30 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
         return mGoodsList.get(position);
     }
 
-    public void add(Good good) {
+    public void addItem(Good good) {
         mGoodsList.add(good);
-        notifyDataSetChanged();
+        notifyItemInserted(mGoodsList.size() -1);
+        //notifyDataSetChanged();
     }
 
-    public void update(Good good) { // TODO: 25/10/2016 da provare se funziona
-        // i good non sono ancora comparabili
-        int i = mGoodsList.indexOf(good);
-        mGoodsList.add(i, good);
+    public void removeItem(int position) {
+        Good mGood = getItem(position);
+        mGoodsList.remove(position);
+        notifyItemRemoved(position);
+
+        mListener.onRemoveItem(mGood);
     }
+
+    public void updateItem(Good good, int position) { // TODO: 25/10/2016 da provare se funziona
+        // i good non sono ancora comparabili
+        //int i = mGoodsList.indexOf();
+        mGoodsList.add(position, good);
+        notifyItemChanged(position);
+    }
+
 
     @Override
-    public void onBindViewHolder(GoodViewHolder goodViewHolder, int position) {
+    public void onBindViewHolder(final GoodViewHolder goodViewHolder, int position) {
         Good mGood = getItem(position);
         goodViewHolder.vName.setText(Utils.firstLetterToUpperCase(mGood.getName()));
         goodViewHolder.vQuantity.setText(String.format(Locale.getDefault(), "%d", mGood.getQuantity()));
@@ -60,6 +80,7 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
         goodViewHolder.vPricePerUnitCurrency.setText(String.format(Locale.getDefault(),
                 context.getString(R.string.currency_euro_per_unit),
                 mGood.getUnitOfMeasure()));
+
     }
 
     @Override
@@ -89,6 +110,7 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
             vQuantityUnitOfMeasure = ((TextView) view.findViewById(R.id.goods_list_item_unit_of_measure_txt_view));
             vPricePerUnitCurrency = ((TextView) view.findViewById(R.id.goods_list_item_price_per_unit_currency_txt_view));
         }
+
     }
 
 }

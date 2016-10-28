@@ -2,13 +2,17 @@ package it.project.alessio.shopping_v2.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import it.project.alessio.shopping_v2.Adapters.GoodTouchHelper;
 import it.project.alessio.shopping_v2.DBAdapter.Good;
 import it.project.alessio.shopping_v2.DBAdapter.Shopping;
 import it.project.alessio.shopping_v2.Adapters.GoodAdapter;
@@ -24,6 +28,7 @@ public class GoodsListFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     private OnFragmentInteractionListener mListener;
+
 
     public GoodsListFragment() {
         // Required empty public constructor
@@ -59,7 +64,16 @@ public class GoodsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_goods_list, container, false);
-        mRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.cardList);
+
+
+        return viewRoot;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.cardList);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -78,7 +92,6 @@ public class GoodsListFragment extends Fragment {
                 Good mGood = ((GoodAdapter) mRecyclerView.getAdapter()).getItem(position);
             }
         }));
-        return viewRoot;
     }
 
 
@@ -88,25 +101,34 @@ public class GoodsListFragment extends Fragment {
 
         //mShopping = ((MyShoppingActivity) getActivity()).getShopping();
         //if (mShopping != null)
-            setRecyclerViewAdapter();
+
+        setRecyclerViewAdapter();
     }
 
-    public void setRecyclerViewAdapter(){
+    public void setRecyclerViewAdapter() {
         if (mShopping == null)
             mShopping = ((MyShoppingActivity) getActivity()).getShopping();
 
         if (mShopping == null)
             return;
 
-        mRecyclerView.setAdapter(new GoodAdapter(mShopping.getPurchasedGoodsArray(), getContext()));
+        GoodAdapter mAdapter = new GoodAdapter(mShopping.getPurchasedGoodsArray(), getContext(), new GoodAdapter.OnRemoveItemListener() {
+            @Override
+            public void onRemoveItem(Good good) {
+                mShopping.removeGood(good);
+            }
+        });
+        Log.d("TAG", "setAdapter");
+        mRecyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelper.Callback callback = new GoodTouchHelper(mAdapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(mRecyclerView);
     }
 
     public GoodAdapter getRecyclerViewAdapter() {
         return (GoodAdapter) mRecyclerView.getAdapter();
     }
-
-
-
 
 
     @Override
